@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/common_phone_input_hint"
-                    android:inputType="textVisiblePassword"
+                    android:inputType="phone"
                     android:singleLine="true"
                     app:regexType="mobile" />
 
@@ -61,22 +61,68 @@
                     android:layout_gravity="bottom" />
             </FrameLayout>
 
-            <com.hjq.widget.view.CountdownView
-                android:id="@+id/cv_register_countdown"
-                style="@style/CountdownViewStyle" />
+<!--            <com.hjq.widget.view.CountdownView-->
+<!--                android:id="@+id/cv_register_countdown"-->
+<!--                style="@style/CountdownViewStyle" />-->
         </LinearLayout>
 
         <com.hjq.widget.view.RegexEditText
-            android:id="@+id/et_register_code"
+            android:id="@+id/et_register_username"
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:hint="@string/common_code_input_hint"
+            android:hint="请输入昵称"
+            android:inputType="name"
+            android:maxLength="@integer/sms_code_length"
+            android:singleLine="true"
+            app:regexType="name" />
+
+        <View style="@style/HorizontalLineStyle" />
+
+        <com.hjq.widget.view.RegexEditText
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:id="@+id/et_register_sex"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:hint="请选择性别"
             android:inputType="textVisiblePassword"
             android:maxLength="@integer/sms_code_length"
             android:singleLine="true"
+            app:regexType="name" />
+
+        <View style="@style/HorizontalLineStyle" />
+
+        <com.hjq.widget.view.RegexEditText
+            android:id="@+id/et_register_age"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:hint="请输入年龄"
+            android:inputType="number"
+            android:maxLength="@integer/sms_code_length"
+            android:singleLine="true"
             app:regexType="number" />
+
+        <View style="@style/HorizontalLineStyle" />
+
+        <com.hjq.widget.view.RegexEditText
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:id="@+id/et_register_profession"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:hint="请选择职业"
+            android:inputType="textVisiblePassword"
+            android:maxLength="@integer/sms_code_length"
+            android:singleLine="true"
+            app:regexType="name" />
 
         <View style="@style/HorizontalLineStyle" />
 

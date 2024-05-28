@@ -19,7 +19,7 @@ public class RequestServer implements IRequestServer {
 
     @Override
     public String getPath() {
-        return "api/";
+        return "";
     }
 
     @Override

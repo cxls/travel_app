@@ -16,7 +16,7 @@
         <com.hjq.demo.widget.XCollapsingToolbarLayout
             android:id="@+id/ctl_home_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_256"
+            android:layout_height="@dimen/dp_201"
             app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:scrimVisibleHeightTrigger="@dimen/dp_100">
@@ -58,7 +58,7 @@
                         android:background="@drawable/home_search_bar_transparent_bg"
                         android:gravity="center"
                         android:paddingVertical="@dimen/dp_5"
-                        android:text="完善细节，追求完美"
+                        android:text="输入地点搜索攻略"
                         android:textColor="@color/white60"
                         android:textSize="@dimen/sp_13" />
 
@@ -76,22 +76,33 @@
 
         </com.hjq.demo.widget.XCollapsingToolbarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home_tab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:itemCount="2"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/tab_item_design"
-            tools:spanCount="2" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rv_home_tab"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            tools:itemCount="2"-->
+<!--            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+<!--            tools:listitem="@layout/tab_item_design"-->
+<!--            tools:spanCount="2" />-->
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.hjq.widget.layout.NestedViewPager
-        android:id="@+id/vp_home_pager"
+<!--    <com.hjq.widget.layout.NestedViewPager-->
+<!--        android:id="@+id/vp_home_pager"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/rl_status_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:srlEnablePreviewInEditMode="false">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

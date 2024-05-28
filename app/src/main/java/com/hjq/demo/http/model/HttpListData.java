@@ -8,40 +8,73 @@ import java.util.List;
  *    time   : 2020/10/07
  *    desc   : 统一接口列表数据结构
  */
-public class HttpListData<T> extends HttpData<HttpListData.ListBean<T>> {
+public class HttpListData<T> {
+    /** 返回码 */
+    private int code;
+    /** 提示语 */
+    private String msg;
+    /** 数据 */
+    private List<T> rows;
 
-    public static class ListBean<T> {
+    /**
+     * 当前页
+     */
+    private int pageNumber;
 
-        /** 当前页码 */
-        private int pageIndex;
-        /** 页大小 */
-        private int pageSize;
-        /** 总数量 */
-        private int totalNumber;
-        /** 数据 */
-        private List<T> items;
+    /**
+     * 页大小
+     */
+    private int pageSize;
 
-        /**
-         * 判断是否是最后一页
-         */
-        public boolean isLastPage() {
-            return Math.ceil((float) totalNumber / pageSize) <= pageIndex;
-        }
+    private boolean isLastPage;
 
-        public int getTotalNumber() {
-            return totalNumber;
-        }
 
-        public int getPageIndex() {
-            return pageIndex;
-        }
+    /**
+     * 总条数
+     */
+    private int total;
 
-        public int getPageSize() {
-            return pageSize;
-        }
-
-        public List<T> getItems() {
-            return items;
-        }
+    public int getCode() {
+        return code;
     }
+
+    public String getMessage() {
+        return msg;
+    }
+
+    public List<T> getRows() {
+        return rows;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public boolean isLastPage() {
+        return isLastPage;
+    }
+
+    /**
+     * 是否请求成功
+     */
+    public boolean isRequestSucceed() {
+        return code == 200;
+    }
+
+    /**
+     * 是否 Token 失效
+     */
+    public boolean isTokenFailure() {
+        return code == 1001;
+    }
+
+
 }

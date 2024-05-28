@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +19,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.demo.R;
 import com.hjq.demo.aop.Log;
 import com.hjq.demo.aop.SingleClick;
 import com.hjq.demo.app.AppActivity;
+import com.hjq.demo.http.api.CaptchaImageApi;
 import com.hjq.demo.http.api.LoginApi;
 import com.hjq.demo.http.glide.GlideApp;
+import com.hjq.demo.http.model.HttpCaptchaImgData;
 import com.hjq.demo.http.model.HttpData;
+import com.hjq.demo.http.model.HttpTokenData;
 import com.hjq.demo.manager.InputTextManager;
 import com.hjq.demo.other.KeyboardWatcher;
+import com.hjq.demo.ui.fragment.HomeFragment;
 import com.hjq.demo.ui.fragment.MineFragment;
+import com.hjq.demo.utils.TravelPrefs;
 import com.hjq.demo.wxapi.WXEntryActivity;
 import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
@@ -37,6 +44,8 @@ import com.hjq.umeng.Platform;
 import com.hjq.umeng.UmengClient;
 import com.hjq.umeng.UmengLogin;
 import com.hjq.widget.view.SubmitButton;
+
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import okhttp3.Call;
 
@@ -78,6 +87,16 @@ public final class LoginActivity extends AppActivity
     private View mQQView;
     private View mWeChatView;
 
+    private String captchaImageData;
+    private String captchaImageUUid;
+
+    private ImageView captchaImage;
+
+    private EditText mCaptchaView;
+
+
+    TravelPrefs myPrefs;
+
     /** logo 缩放比例 */
     private final float mLogoScale = 0.8f;
     /** 动画时间 */
@@ -99,14 +118,19 @@ public final class LoginActivity extends AppActivity
         mOtherView = findViewById(R.id.ll_login_other);
         mQQView = findViewById(R.id.iv_login_qq);
         mWeChatView = findViewById(R.id.iv_login_wechat);
+        captchaImage = findViewById(R.id.iv_captcha_image);
+        mCaptchaView = findViewById(R.id.et_captcha_input);
 
-        setOnClickListener(mForgetView, mCommitView, mQQView, mWeChatView);
+        myPrefs = TravelPrefs.getInstance(this);
+
+        setOnClickListener(mForgetView, mCommitView, mQQView, mWeChatView,captchaImage);
 
         mPasswordView.setOnEditorActionListener(this);
 
         InputTextManager.with(this)
                 .addView(mPhoneView)
                 .addView(mPasswordView)
+                .addView(mCaptchaView)
                 .setMain(mCommitView)
                 .build();
     }
@@ -136,6 +160,8 @@ public final class LoginActivity extends AppActivity
         // 自动填充手机号和密码
         mPhoneView.setText(getString(INTENT_KEY_IN_PHONE));
         mPasswordView.setText(getString(INTENT_KEY_IN_PASSWORD));
+
+        getCaptchaImage();
     }
 
     @Override
@@ -171,23 +197,25 @@ public final class LoginActivity extends AppActivity
             // 隐藏软键盘
             hideKeyboard(getCurrentFocus());
 
-            if (true) {
-                mCommitView.showProgress();
-                postDelayed(() -> {
-                    mCommitView.showSucceed();
-                    postDelayed(() -> {
-                        HomeActivity.start(getContext(), MineFragment.class);
-                        finish();
-                    }, 1000);
-                }, 2000);
-                return;
-            }
+//            if (true) {
+//                mCommitView.showProgress();
+//                postDelayed(() -> {
+//                    mCommitView.showSucceed();
+//                    postDelayed(() -> {
+//                        HomeActivity.start(getContext(), MineFragment.class);
+//                        finish();
+//                    }, 1000);
+//                }, 2000);
+//                return;
+//            }
 
             EasyHttp.post(this)
                     .api(new LoginApi()
                             .setPhone(mPhoneView.getText().toString())
-                            .setPassword(mPasswordView.getText().toString()))
-                    .request(new HttpCallback<HttpData<LoginApi.Bean>>(this) {
+                            .setPassword(mPasswordView.getText().toString())
+                            .setCode(mCaptchaView.getText().toString())
+                            .setUuid(captchaImageUUid))
+                    .request(new HttpCallback<HttpTokenData>(this) {
 
                         @Override
                         public void onStart(Call call) {
@@ -198,15 +226,22 @@ public final class LoginActivity extends AppActivity
                         public void onEnd(Call call) {}
 
                         @Override
-                        public void onSucceed(HttpData<LoginApi.Bean> data) {
+                        public void onSucceed(HttpTokenData data) {
+                            if (data.getCode() != 200){
+                                mCommitView.showError(3000);
+                                toast(data.getMessage());
+                                return;
+                            }
                             // 更新 Token
                             EasyConfig.getInstance()
-                                    .addParam("token", data.getData().getToken());
+                                    .addHeader("Authorization", "Bearer " + data.getToken());
+                            // 缓存token到本地
+                            myPrefs.edit().token().put(data.getToken()).apply();
                             postDelayed(() -> {
                                 mCommitView.showSucceed();
                                 postDelayed(() -> {
                                     // 跳转到首页
-                                    HomeActivity.start(getContext(), MineFragment.class);
+                                    HomeActivity.start(getContext(), HomeFragment.class);
                                     finish();
                                 }, 1000);
                             }, 1000);
@@ -235,6 +270,10 @@ public final class LoginActivity extends AppActivity
                 throw new IllegalStateException("are you ok?");
             }
             UmengClient.login(this, platform, this);
+        }
+
+        if (view == captchaImage){
+            getCaptchaImage();
         }
     }
 
@@ -361,5 +400,29 @@ public final class LoginActivity extends AppActivity
         return super.createStatusBarConfig()
                 // 指定导航栏背景颜色
                 .navigationBarColor(R.color.white);
+    }
+
+    private void getCaptchaImage(){
+        // 调用获取验证码图片接口
+        EasyHttp.get(this)
+                .api(new CaptchaImageApi())
+                .request(new HttpCallback<HttpCaptchaImgData>(this) {
+                    @Override
+                    public void onSucceed(HttpCaptchaImgData result) {
+                        captchaImageData = result.getImg();
+                        // 将Base64编码的图片数据转换为Bitmap并加载到ImageView中
+                        byte[] decodedString = Base64.decode(captchaImageData, Base64.DEFAULT);
+                        Glide.with(getContext())
+                                .asBitmap()
+                                .load(decodedString)
+                                .into(captchaImage);
+                        captchaImageUUid = result.getUuid();
+                    }
+
+                    @Override
+                    public void onFail(Exception e) {
+                        super.onFail(e);
+                    }
+                });
     }
 }

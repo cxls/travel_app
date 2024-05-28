@@ -14,10 +14,15 @@ import com.hjq.demo.R;
 import com.hjq.demo.app.AppActivity;
 import com.hjq.demo.http.api.UserInfoApi;
 import com.hjq.demo.http.model.HttpData;
+import com.hjq.demo.manager.ActivityManager;
 import com.hjq.demo.other.AppConfig;
+import com.hjq.demo.utils.TravelPrefs;
+import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.widget.view.SlantedTextView;
+
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 /**
  *    author : Android 轮子哥
@@ -30,6 +35,8 @@ public final class SplashActivity extends AppActivity {
     private LottieAnimationView mLottieView;
     private SlantedTextView mDebugView;
 
+    TravelPrefs myPrefs;
+
     @Override
     protected int getLayoutId() {
         return R.layout.splash_activity;
@@ -39,14 +46,16 @@ public final class SplashActivity extends AppActivity {
     protected void initView() {
         mLottieView = findViewById(R.id.lav_splash_lottie);
         mDebugView = findViewById(R.id.iv_splash_debug);
+
+        myPrefs = TravelPrefs.getInstance(this);
         // 设置动画监听
         mLottieView.addAnimatorListener(new AnimatorListenerAdapter() {
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 mLottieView.removeAnimatorListener(this);
-                HomeActivity.start(getContext());
-                finish();
+//                HomeActivity.start(getContext());
+//                finish();
             }
         });
     }
@@ -60,17 +69,27 @@ public final class SplashActivity extends AppActivity {
             mDebugView.setVisibility(View.INVISIBLE);
         }
 
-        if (true) {
-            return;
-        }
+        EasyConfig.getInstance().addHeader("Authorization", "Bearer " + myPrefs.token().get());
         // 刷新用户信息
-        EasyHttp.post(this)
+        EasyHttp.get(this)
                 .api(new UserInfoApi())
                 .request(new HttpCallback<HttpData<UserInfoApi.Bean>>(this) {
 
                     @Override
                     public void onSucceed(HttpData<UserInfoApi.Bean> data) {
+                        // 已登录，跳转首页
+                        HomeActivity.start(getContext());
+                        finish();
+                    }
 
+                    /**
+                     * @param e
+                     */
+                    @Override
+                    public void onFail(Exception e) {
+                        startActivity(LoginActivity.class);
+                        // 进行内存优化，销毁除登录页之外的所有界面
+                        ActivityManager.getInstance().finishAllActivities(LoginActivity.class);
                     }
                 });
     }

@@ -16,6 +16,7 @@ import com.hjq.bar.TitleBar;
 import com.hjq.demo.R;
 import com.hjq.demo.aop.Log;
 import com.hjq.demo.http.glide.GlideApp;
+import com.hjq.demo.http.interceptor.AuthInterceptor;
 import com.hjq.demo.http.model.RequestHandler;
 import com.hjq.demo.http.model.RequestServer;
 import com.hjq.demo.manager.ActivityManager;
@@ -39,6 +40,8 @@ import com.hjq.umeng.UmengClient;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
+
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -114,10 +117,10 @@ public final class AppApplication extends Application {
         CrashHandler.register(application);
 
         // 友盟统计、登录、分享 SDK
-        UmengClient.init(application, AppConfig.isLogEnable());
+//        UmengClient.init(application, AppConfig.isLogEnable());
 
         // Bugly 异常捕捉
-        CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug());
+//        CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug());
 
         // Activity 栈管理初始化
         ActivityManager.getInstance().init(application);
@@ -127,6 +130,8 @@ public final class AppApplication extends Application {
 
         // 网络请求框架初始化
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                // 添加token拦截器
+                .addInterceptor(new AuthInterceptor())
                 .build();
 
         EasyConfig.with(okHttpClient)
@@ -140,15 +145,15 @@ public final class AppApplication extends Application {
                 .setRetryCount(1)
                 .setInterceptor((api, params, headers) -> {
                     // 添加全局请求头
-                    headers.put("token", "66666666666");
-                    headers.put("deviceOaid", UmengClient.getDeviceOaid());
-                    headers.put("versionName", AppConfig.getVersionName());
-                    headers.put("versionCode", String.valueOf(AppConfig.getVersionCode()));
+//                    headers.put("deviceOaid", UmengClient.getDeviceOaid());
+//                    headers.put("versionName", AppConfig.getVersionName());
+//                    headers.put("versionCode", String.valueOf(AppConfig.getVersionCode()));
                     // 添加全局请求参数
                     // params.put("6666666", "6666666");
                 })
-                .into();
 
+                .into();
+        
         // 设置 Json 解析容错监听
         GsonFactory.setJsonCallback((typeToken, fieldName, jsonToken) -> {
             // 上报到 Bugly 错误列表
