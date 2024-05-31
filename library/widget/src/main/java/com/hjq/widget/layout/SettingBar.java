@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -24,6 +25,7 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
 import com.hjq.widget.R;
+import com.hjq.widget.view.ClearEditText;
 
 /**
  *    author : Android 轮子哥
@@ -38,8 +40,11 @@ public final class SettingBar extends FrameLayout {
 
     private final LinearLayout mMainLayout;
     private final TextView mLeftView;
-    private final TextView mRightView;
+    private TextView mRightView = null;
+
     private final View mLineView;
+
+    int layoutType;
 
     /** 图标着色器 */
     private int mLeftDrawableTint, mRightDrawableTint;
@@ -64,10 +69,30 @@ public final class SettingBar extends FrameLayout {
 
         mMainLayout = new LinearLayout(getContext());
         mLeftView = new TextView(getContext());
-        mRightView = new TextView(getContext());
+
         mLineView  = new View(getContext());
 
         mMainLayout.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.SettingBar,
+                0, 0);
+
+        try {
+            int viewType = a.getInt(R.styleable.SettingBar_rightViewType, 1); // Default is EditText
+            layoutType = a.getInt(R.styleable.SettingBar_type, 0); // Default is
+            if (viewType == 0) {
+                // Initialize as ClearEditText
+                mRightView = new ClearEditText(context);
+            }else{
+                mRightView = new TextView(context);
+            }
+
+        } finally {
+            a.recycle();
+        }
+
 
         LinearLayout.LayoutParams leftParams = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
         leftParams.gravity = Gravity.CENTER_VERTICAL;
@@ -76,30 +101,49 @@ public final class SettingBar extends FrameLayout {
 
         LinearLayout.LayoutParams rightParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         rightParams.gravity = Gravity.CENTER_VERTICAL;
+        if (mRightView instanceof ClearEditText){
+            rightParams.weight = 2;
+        }
         mRightView.setLayoutParams(rightParams);
+
+        mRightView.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        mRightView.setSingleLine(true);
+        mRightView.setEllipsize(TextUtils.TruncateAt.END);
+        mRightView.setLineSpacing(getResources().getDimension(R.dimen.dp_5), mRightView.getLineSpacingMultiplier());
 
         mLineView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1, Gravity.BOTTOM));
 
         mLeftView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-        mRightView.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
 
         mLeftView.setSingleLine(true);
-        mRightView.setSingleLine(true);
+
 
         mLeftView.setEllipsize(TextUtils.TruncateAt.END);
-        mRightView.setEllipsize(TextUtils.TruncateAt.END);
 
         mLeftView.setLineSpacing(getResources().getDimension(R.dimen.dp_5), mLeftView.getLineSpacingMultiplier());
-        mRightView.setLineSpacing(getResources().getDimension(R.dimen.dp_5), mRightView.getLineSpacingMultiplier());
 
-        mLeftView.setPaddingRelative((int) getResources().getDimension(R.dimen.dp_15),
-                (int) getResources().getDimension(R.dimen.dp_12),
-                (int) getResources().getDimension(R.dimen.dp_15),
-                (int) getResources().getDimension(R.dimen.dp_12));
-        mRightView.setPaddingRelative((int) getResources().getDimension(R.dimen.dp_15),
-                (int) getResources().getDimension(R.dimen.dp_12),
-                (int) getResources().getDimension(R.dimen.dp_15),
-                (int) getResources().getDimension(R.dimen.dp_12));
+        if (layoutType == 0) {
+            mLeftView.setPaddingRelative((int) getResources().getDimension(R.dimen.dp_15),
+                    (int) getResources().getDimension(R.dimen.dp_12),
+                    (int) getResources().getDimension(R.dimen.dp_15),
+                    (int) getResources().getDimension(R.dimen.dp_12));
+            mRightView.setPaddingRelative((int) getResources().getDimension(R.dimen.dp_15),
+                    (int) getResources().getDimension(R.dimen.dp_12),
+                    (int) getResources().getDimension(R.dimen.dp_15),
+                    (int) getResources().getDimension(R.dimen.dp_12));
+        }else{
+            mLeftView.setPaddingRelative(0,
+                    (int) getResources().getDimension(R.dimen.dp_12),
+                    0,
+                    (int) getResources().getDimension(R.dimen.dp_12));
+            mRightView.setPaddingRelative(0,
+                    (int) getResources().getDimension(R.dimen.dp_12),
+                    0,
+                    (int) getResources().getDimension(R.dimen.dp_12));
+            Typeface typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
+            mLeftView.setTypeface(typeface);
+        }
+
 
         final TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.SettingBar);
 

@@ -14,14 +14,15 @@ public final class UpdateImageApi implements IRequestApi {
 
     @Override
     public String getApi() {
-        return "update/image";
+        return "common/upload";
     }
 
     /** 图片文件 */
-    private File image;
+    private File file;
 
-    public UpdateImageApi setImage(File image) {
-        this.image = image;
+    public UpdateImageApi setImage(File file) {
+        this.file = file;
         return this;
     }
+
 }

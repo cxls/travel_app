@@ -230,6 +230,7 @@ public final class LoginActivity extends AppActivity
                             if (data.getCode() != 200){
                                 mCommitView.showError(3000);
                                 toast(data.getMessage());
+                                getCaptchaImage();
                                 return;
                             }
                             // 更新 Token
@@ -253,6 +254,7 @@ public final class LoginActivity extends AppActivity
                             postDelayed(() -> {
                                 mCommitView.showError(3000);
                             }, 1000);
+                            getCaptchaImage();
                         }
                     });
             return;

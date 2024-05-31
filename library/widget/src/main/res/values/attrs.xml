@@ -57,6 +57,16 @@
         <attr name="bar_lineDrawable" format="reference|color" />
         <attr name="bar_lineSize" format="dimension" />
         <attr name="bar_lineMargin" format="dimension" />
+
+        <attr name="rightViewType" format="enum">
+            <enum name="editText" value="0"/>
+            <enum name="textView" value="1"/>
+        </attr>
+
+        <attr name="type" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="noPadding" value="1"/>
+        </attr>
     </declare-styleable>
 
     <!-- 带提交动画按钮 -->
@@ -151,5 +161,6 @@
         <!-- 动画时间 -->
         <attr name="pb_animDuration" format="integer" />
     </declare-styleable>
+
 
 </resources>

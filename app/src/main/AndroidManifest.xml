@@ -88,6 +88,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+        <!-- 添加酒店页 -->
+        <activity
+            android:name=".ui.activity.AddHoteActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
         <!-- 登录页 -->
         <activity
             android:name=".ui.activity.LoginActivity"

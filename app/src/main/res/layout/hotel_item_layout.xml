@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <ImageView
             android:id="@+id/item_image"
@@ -22,50 +23,50 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/dp_16">
+            android:padding="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="酒店名称"
+                android:textStyle="bold"
+                android:paddingBottom="@dimen/dp_10"
+                android:textSize="16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+
                 <TextView
-                    android:id="@+id/item_location"
-                    android:layout_width="0dp"
+                    android:id="@+id/item_price"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="地点名称"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
-
-
+                    android:text="价格"
+                    android:textColor="@color/red"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/item_publisher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="发布人"
-                android:paddingTop="@dimen/dp_5"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/item_title"
+                android:id="@+id/item_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="攻略标题"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:text="地址"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
 
             <TextView
                 android:id="@+id/item_content"
                 android:layout_width="match_parent"
-                android:text="这是攻略内容的示例，这里可能有很多信息，我们需要显示两行，多余的内容会用省略号表示..."
-                android:textSize="14sp"
+                android:text="酒店描述"
+                android:textSize="10sp"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:paddingTop="@dimen/dp_5"
                 android:textColor="@color/gray"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

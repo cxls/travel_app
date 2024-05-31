@@ -20,8 +20,10 @@ import com.hjq.demo.other.DoubleClickHelper;
 import com.hjq.demo.ui.adapter.NavigationAdapter;
 import com.hjq.demo.ui.fragment.FindFragment;
 import com.hjq.demo.ui.fragment.HomeFragment;
+import com.hjq.demo.ui.fragment.HotelFragment;
 import com.hjq.demo.ui.fragment.MessageFragment;
 import com.hjq.demo.ui.fragment.MineFragment;
+import com.hjq.demo.ui.fragment.PersonStatusFragment;
 
 /**
  *    author : Android 轮子哥
@@ -81,8 +83,8 @@ public final class HomeActivity extends AppActivity
     protected void initData() {
         mPagerAdapter = new FragmentPagerAdapter<>(this);
         mPagerAdapter.addFragment(HomeFragment.newInstance());
-        mPagerAdapter.addFragment(FindFragment.newInstance());
-        mPagerAdapter.addFragment(MessageFragment.newInstance());
+        mPagerAdapter.addFragment(HotelFragment.newInstance());
+        mPagerAdapter.addFragment(PersonStatusFragment.newInstance());
         mPagerAdapter.addFragment(MineFragment.newInstance());
         mViewPager.setAdapter(mPagerAdapter);
 

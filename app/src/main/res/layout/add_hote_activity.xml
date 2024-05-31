@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.AddHoteActivity">
+
+    <com.hjq.bar.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="添加酒店" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--基础数据-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dp_10"
+                android:padding="@dimen/dp_10"
+                android:background="@drawable/bg_white_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="酒店名称："
+                        android:textStyle="bold"
+                        android:layout_weight="2"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:textSize="18sp"/>
+
+                    <com.hjq.widget.view.ClearEditText
+                        android:id="@+id/et_name"
+                        style="@style/EditTextStyle"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:hint="请输入酒店名称"
+                        android:inputType="text"
+                        />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    style="@style/HorizontalLineStyle"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="酒店价格："
+                        android:textStyle="bold"
+                        android:layout_weight="2"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:textSize="18sp"/>
+
+                    <com.hjq.widget.view.ClearEditText
+                        android:id="@+id/et_price"
+                        style="@style/EditTextStyle"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:hint="请输入酒店价格"
+                        android:inputType="text"
+                        />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    style="@style/HorizontalLineStyle"/>
+
+                <com.hjq.widget.layout.SettingBar
+                    android:id="@+id/sb_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:bar_leftText="地区："
+                    app:type="noPadding"
+                    app:bar_leftTextSize="18sp"
+                    app:bar_rightDrawable="@drawable/arrows_right_ic"
+                    app:bar_rightTextHint="@string/personal_data_address_hint" />
+
+            </LinearLayout>
+
+            <!--酒店图片-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/bg_white_radius">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="酒店图片："
+                    android:textStyle="bold"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:textSize="18sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    style="@style/HorizontalLineStyle"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_image_url"
+                    android:layout_width="@dimen/dp_110"
+                    android:layout_height="@dimen/dp_110"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_margin="@dimen/dp_20"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/add_image" />
+            </LinearLayout>
+
+
+            <!--    酒店描述-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/bg_white_radius">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="酒店描述："
+                    android:textStyle="bold"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:textSize="18sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    style="@style/HorizontalLineStyle"/>
+
+                <com.hjq.widget.view.ClearEditText
+                    android:id="@+id/et_description"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_100"
+                    android:hint="请输入酒店描述"
+                    android:inputType="text"
+                    android:minLines="3"
+                    android:maxLines="5"
+                    />
+            </LinearLayout>
+
+            <com.hjq.widget.view.SubmitButton
+                android:id="@+id/btn_submit"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:text="提交"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
