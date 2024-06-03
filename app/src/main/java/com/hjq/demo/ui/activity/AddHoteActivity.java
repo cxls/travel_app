@@ -74,6 +74,7 @@ public final class AddHoteActivity extends AppActivity {
         addressView = findViewById(R.id.sb_address);
         mImageView = findViewById(R.id.iv_image_url);
         submitView = findViewById(R.id.btn_submit);
+        GlideApp.with(this).load(R.drawable.add_image).into(mImageView);
 
         setOnClickListener(addressView,mImageView,submitView);
     }

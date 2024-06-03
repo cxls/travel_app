@@ -219,6 +219,9 @@ dependencies {
 
     implementation 'androidx.cardview:cardview:1.0.0'
 
+//    room 操作库
+    implementation 'org.litepal.guolindev:core:3.2.3'
+
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
     // 日志输出：https://github.com/getActivity/Logcat

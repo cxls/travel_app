@@ -98,7 +98,7 @@ public final class PostsAdapter extends AppAdapter<PersonalStatusListApi.Bean> {
         }
     }
 
-    private static class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageViewHolder> {
+    public static class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageViewHolder> {
         private List<String> images;
 
         public ImagesAdapter(List<String> images) {

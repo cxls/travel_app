@@ -169,9 +169,9 @@
                     android:id="@+id/et_description"
                     style="@style/EditTextStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_100"
+                    android:layout_height="wrap_content"
                     android:hint="请输入酒店描述"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:minLines="3"
                     android:maxLines="5"
                     />

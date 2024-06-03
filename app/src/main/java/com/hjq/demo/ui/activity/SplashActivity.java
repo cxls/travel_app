@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.gyf.immersionbar.BarHide;
@@ -13,9 +14,12 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.demo.R;
 import com.hjq.demo.app.AppActivity;
 import com.hjq.demo.http.api.UserInfoApi;
+import com.hjq.demo.http.api.UserInfoListApi;
 import com.hjq.demo.http.model.HttpData;
 import com.hjq.demo.manager.ActivityManager;
 import com.hjq.demo.other.AppConfig;
+import com.hjq.demo.sqlite.model.User;
+import com.hjq.demo.sqlite.viewModel.UserViewModel;
 import com.hjq.demo.utils.TravelPrefs;
 import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
@@ -23,6 +27,11 @@ import com.hjq.http.listener.HttpCallback;
 import com.hjq.widget.view.SlantedTextView;
 
 import org.androidannotations.annotations.sharedpreferences.Pref;
+
+import java.util.List;
+
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.json.JSONUtil;
 
 /**
  *    author : Android 轮子哥
@@ -37,6 +46,8 @@ public final class SplashActivity extends AppActivity {
 
     TravelPrefs myPrefs;
 
+    private UserViewModel userViewModel;
+
     @Override
     protected int getLayoutId() {
         return R.layout.splash_activity;
@@ -48,6 +59,8 @@ public final class SplashActivity extends AppActivity {
         mDebugView = findViewById(R.id.iv_splash_debug);
 
         myPrefs = TravelPrefs.getInstance(this);
+
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         // 设置动画监听
         mLottieView.addAnimatorListener(new AnimatorListenerAdapter() {
 
@@ -92,6 +105,33 @@ public final class SplashActivity extends AppActivity {
                         ActivityManager.getInstance().finishAllActivities(LoginActivity.class);
                     }
                 });
+
+        // 异步线程执行信息缓存
+        ThreadUtil.execute(() -> {
+            // 获取全部用户信息
+            EasyHttp.get(this)
+                    .api(new UserInfoListApi())
+                    .request(new HttpCallback<HttpData<List<UserInfoListApi.Bean>>>(this) {
+
+                        @Override
+                        public void onSucceed(HttpData<List<UserInfoListApi.Bean>> data) {
+                            if (data.getCode() != 200){
+                                toast(data.getMessage());
+                                return;
+                            }
+                            // 保存用户信息到本地sqlite
+                            userViewModel.insertAll(JSONUtil.toList(JSONUtil.toJsonStr(data.getData()), User.class));
+                        }
+
+                        /**
+                         * @param e
+                         */
+                        @Override
+                        public void onFail(Exception e) {
+                            toast(e.getMessage());
+                        }
+                    });
+        });
     }
 
     @NonNull

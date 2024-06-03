@@ -12,6 +12,7 @@ import com.hjq.demo.app.TitleBarFragment;
 import com.hjq.demo.http.api.PersonalStatusListApi;
 import com.hjq.demo.http.model.HttpListData;
 import com.hjq.demo.ui.activity.AddHoteActivity;
+import com.hjq.demo.ui.activity.AddPersonStatusActivity;
 import com.hjq.demo.ui.activity.HomeActivity;
 import com.hjq.demo.ui.adapter.PostsAdapter;
 import com.hjq.http.EasyHttp;
@@ -119,8 +120,8 @@ public final class PersonStatusFragment extends TitleBarFragment<HomeActivity> i
 
     @Override
     public void onRightClick(View view) {
-        this.startActivityForResult(AddHoteActivity.class, (resultCode, data) -> {
-            if (resultCode == AddHoteActivity.RESULT_OK) {
+        this.startActivityForResult(AddPersonStatusActivity.class, (resultCode, data) -> {
+            if (resultCode == AddPersonStatusActivity.RESULT_OK) {
                 mRefreshLayout.autoRefresh();
             }
         });

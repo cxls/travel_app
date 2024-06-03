@@ -95,6 +95,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+        <!-- 发布个人动态页 -->
+        <activity
+            android:name=".ui.activity.AddPersonStatusActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
         <!-- 登录页 -->
         <activity
             android:name=".ui.activity.LoginActivity"

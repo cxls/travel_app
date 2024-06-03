@@ -42,6 +42,8 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.litepal.LitePal;
+import org.litepal.LitePalApplication;
 
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -52,7 +54,7 @@ import timber.log.Timber;
  *    time   : 2018/10/18
  *    desc   : 应用入口
  */
-public final class AppApplication extends Application {
+public final class AppApplication extends LitePalApplication {
 
     @Log("启动耗时")
     @Override
@@ -86,6 +88,8 @@ public final class AppApplication extends Application {
     public static void initSdk(Application application) {
         // 设置标题栏初始化器
         TitleBar.setDefaultStyle(new TitleBarStyle());
+
+        LitePal.initialize(application);
 
         // 设置全局的 Header 构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((cx, layout) ->

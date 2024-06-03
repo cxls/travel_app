@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -16,29 +16,29 @@
             android:id="@+id/userAvatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/avatar_placeholder_ic"
             android:layout_alignParentStart="true"
-            android:contentDescription="头像"/>
+            android:contentDescription="头像"
+            android:src="@drawable/avatar_placeholder_ic" />
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/userAvatar"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/userAvatar"
             android:text="用户名"
-            android:textSize="16sp"
-            android:layout_marginStart="10dp"
-            android:layout_alignTop="@id/userAvatar"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/postTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/userAvatar"
             android:text="刚刚"
-            android:textSize="12sp"
-            android:layout_below="@id/username"
-            android:layout_marginStart="10dp"/>
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
@@ -47,8 +47,8 @@
         android:id="@+id/postContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="这里是动态内容，可以是文本也可以是图文混排。"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:text="这里是动态内容，可以是文本也可以是图文混排。" />
 
     <!-- 图片内容，使用RecyclerView展示多张图片 -->
     <androidx.recyclerview.widget.RecyclerView
@@ -56,29 +56,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
-        tools:listitem="@layout/posts_image_item"
-        android:nestedScrollingEnabled="false"/>
+        android:nestedScrollingEnabled="false"
+        tools:listitem="@layout/posts_image_item" />
 
     <!-- 操作按钮部分 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="8dp"
-        android:gravity="end">
+        android:gravity="end"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/likeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="赞"/>
+            android:text="赞" />
 
         <Button
             android:id="@+id/commentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="评论"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:text="评论" />
 
     </LinearLayout>
 
