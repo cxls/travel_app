@@ -13,17 +13,24 @@
         app:rightIcon="@drawable/add"
         app:title="动态" />
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/rl_status_refresh"
+    <com.hjq.demo.widget.StatusLayout
+        android:id="@+id/hl_personal_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:srlEnablePreviewInEditMode="false">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/rl_status_refresh"
             android:layout_width="match_parent"
-            tools:listitem="@layout/personal_status_item"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:srlEnablePreviewInEditMode="false">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                tools:listitem="@layout/personal_status_item"
+                android:layout_height="match_parent"/>
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </com.hjq.demo.widget.StatusLayout>
 
 </LinearLayout>

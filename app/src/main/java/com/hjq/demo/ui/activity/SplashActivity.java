@@ -107,31 +107,31 @@ public final class SplashActivity extends AppActivity {
                 });
 
         // 异步线程执行信息缓存
-        ThreadUtil.execute(() -> {
-            // 获取全部用户信息
-            EasyHttp.get(this)
-                    .api(new UserInfoListApi())
-                    .request(new HttpCallback<HttpData<List<UserInfoListApi.Bean>>>(this) {
-
-                        @Override
-                        public void onSucceed(HttpData<List<UserInfoListApi.Bean>> data) {
-                            if (data.getCode() != 200){
-                                toast(data.getMessage());
-                                return;
-                            }
-                            // 保存用户信息到本地sqlite
-                            userViewModel.insertAll(JSONUtil.toList(JSONUtil.toJsonStr(data.getData()), User.class));
-                        }
-
-                        /**
-                         * @param e
-                         */
-                        @Override
-                        public void onFail(Exception e) {
-                            toast(e.getMessage());
-                        }
-                    });
-        });
+//        ThreadUtil.execute(() -> {
+//            // 获取全部用户信息
+//            EasyHttp.get(this)
+//                    .api(new UserInfoListApi())
+//                    .request(new HttpCallback<HttpData<List<UserInfoListApi.Bean>>>(this) {
+//
+//                        @Override
+//                        public void onSucceed(HttpData<List<UserInfoListApi.Bean>> data) {
+//                            if (data.getCode() != 200){
+//                                toast(data.getMessage());
+//                                return;
+//                            }
+//                            // 保存用户信息到本地sqlite
+//                            userViewModel.insertAll(JSONUtil.toList(JSONUtil.toJsonStr(data.getData()), User.class));
+//                        }
+//
+//                        /**
+//                         * @param e
+//                         */
+//                        @Override
+//                        public void onFail(Exception e) {
+//                            toast(e.getMessage());
+//                        }
+//                    });
+//        });
     }
 
     @NonNull

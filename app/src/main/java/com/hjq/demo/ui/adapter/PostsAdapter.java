@@ -18,10 +18,13 @@ import com.hjq.demo.R;
 import com.hjq.demo.app.AppAdapter;
 import com.hjq.demo.http.api.PersonalStatusListApi;
 import com.hjq.demo.http.glide.GlideApp;
+import com.hjq.demo.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import cn.hutool.core.date.DateUtil;
 
 /**
  *  个人动态适配器
@@ -68,6 +71,8 @@ public final class PostsAdapter extends AppAdapter<PersonalStatusListApi.Bean> {
         public TextView username, time, content;
         public RecyclerView imagesRecyclerView;
         public ImagesAdapter imagesAdapter;
+        private TextView toggleButton;
+        private boolean isExpanded = false;
 
         private ViewHolder(View view) {
             super(view);
@@ -75,6 +80,7 @@ public final class PostsAdapter extends AppAdapter<PersonalStatusListApi.Bean> {
             time = view.findViewById(R.id.postTime);
             content = view.findViewById(R.id.postContent);
             imagesRecyclerView = view.findViewById(R.id.postImagesRecyclerView);
+            toggleButton = view.findViewById(R.id.toggleButton);
         }
 
         @Override
@@ -85,9 +91,22 @@ public final class PostsAdapter extends AppAdapter<PersonalStatusListApi.Bean> {
             }
 
 
-            username.setText(data.getUserId().toString());
-            time.setText(data.getCreatedAt());
+            username.setText(data.getCreateBy());
+            time.setText(DateUtils.getRelativeTime(DateUtil.parseDate(data.getCreatedAt())));
             content.setText(data.getContent());
+
+            toggleButton = findViewById(R.id.toggleButton);
+
+            toggleButton.setOnClickListener(v -> {
+                if (isExpanded) {
+                    content.setMaxLines(5);
+                    toggleButton.setText("展开");
+                } else {
+                    content.setMaxLines(Integer.MAX_VALUE);
+                    toggleButton.setText("收起");
+                }
+                isExpanded = !isExpanded;
+            });
 
             // 设置为网格布局，每行显示3列
             int numberOfColumns = 3;

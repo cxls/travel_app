@@ -45,13 +45,13 @@ import okhttp3.Call;
 public final class RegisterActivity extends AppActivity
         implements TextView.OnEditorActionListener {
 
-    private static final String INTENT_KEY_PHONE = "phone";
+    private static final String INTENT_KEY_USER_NAME = "userName";
     private static final String INTENT_KEY_PASSWORD = "password";
 
     @Log
     public static void start(BaseActivity activity, String phone, String password, OnRegisterListener listener) {
         Intent intent = new Intent(activity, RegisterActivity.class);
-        intent.putExtra(INTENT_KEY_PHONE, phone);
+        intent.putExtra(INTENT_KEY_USER_NAME, phone);
         intent.putExtra(INTENT_KEY_PASSWORD, password);
         activity.startActivityForResult(intent, (resultCode, data) -> {
 
@@ -60,7 +60,7 @@ public final class RegisterActivity extends AppActivity
             }
 
             if (resultCode == RESULT_OK) {
-                listener.onSucceed(data.getStringExtra(INTENT_KEY_PHONE), data.getStringExtra(INTENT_KEY_PASSWORD));
+                listener.onSucceed(data.getStringExtra(INTENT_KEY_USER_NAME), data.getStringExtra(INTENT_KEY_PASSWORD));
             } else {
                 listener.onCancel();
             }
@@ -120,7 +120,7 @@ public final class RegisterActivity extends AppActivity
     @Override
     protected void initData() {
         // 自动填充手机号和密码
-        mPhoneView.setText(getString(INTENT_KEY_PHONE));
+        mUsernameView.setText(getString(INTENT_KEY_USER_NAME));
         mFirstPassword.setText(getString(INTENT_KEY_PASSWORD));
         mSecondPassword.setText(getString(INTENT_KEY_PASSWORD));
 
@@ -256,7 +256,7 @@ public final class RegisterActivity extends AppActivity
                                 mCommitView.showSucceed();
                                 postDelayed(() -> {
                                     setResult(RESULT_OK, new Intent()
-                                            .putExtra(INTENT_KEY_PHONE, mPhoneView.getText().toString())
+                                            .putExtra(INTENT_KEY_USER_NAME, mUsernameView.getText().toString())
                                             .putExtra(INTENT_KEY_PASSWORD, mFirstPassword.getText().toString()));
                                     finish();
                                 }, 1000);

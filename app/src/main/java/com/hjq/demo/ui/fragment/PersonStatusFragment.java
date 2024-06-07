@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.demo.R;
+import com.hjq.demo.action.StatusAction;
 import com.hjq.demo.app.AppFragment;
 import com.hjq.demo.app.TitleBarFragment;
 import com.hjq.demo.http.api.PersonalStatusListApi;
@@ -15,6 +16,7 @@ import com.hjq.demo.ui.activity.AddHoteActivity;
 import com.hjq.demo.ui.activity.AddPersonStatusActivity;
 import com.hjq.demo.ui.activity.HomeActivity;
 import com.hjq.demo.ui.adapter.PostsAdapter;
+import com.hjq.demo.widget.StatusLayout;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.model.ResponseClass;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -30,7 +32,7 @@ import cn.hutool.core.thread.ThreadUtil;
  *  个人动态Fragment
  * @author flightz-
  */
-public final class PersonStatusFragment extends TitleBarFragment<HomeActivity> implements OnRefreshLoadMoreListener {
+public final class PersonStatusFragment extends TitleBarFragment<HomeActivity> implements OnRefreshLoadMoreListener, StatusAction {
 
     private RecyclerView recyclerView;
     private PostsAdapter adapter;
@@ -42,6 +44,8 @@ public final class PersonStatusFragment extends TitleBarFragment<HomeActivity> i
 
     private int pageSize = 10;
 
+    private StatusLayout statusLayout;
+
     public static PersonStatusFragment newInstance() {
         return new PersonStatusFragment();
     }
@@ -52,10 +56,16 @@ public final class PersonStatusFragment extends TitleBarFragment<HomeActivity> i
     }
 
     @Override
+    public StatusLayout getStatusLayout() {
+        return statusLayout;
+    }
+
+    @Override
     protected void initView() {
         recyclerView = findViewById(R.id.recycler_view);
         mRefreshLayout = findViewById(R.id.rl_status_refresh);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        statusLayout = findViewById(R.id.hl_personal_layout);
 
         adapter = new PostsAdapter(getContext());
         recyclerView.setAdapter(adapter);
@@ -92,6 +102,9 @@ public final class PersonStatusFragment extends TitleBarFragment<HomeActivity> i
         postDelayed(() -> {
             try {
                 postList = getPostList();
+                if (postList.getRows().size() == 0){
+
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -109,6 +122,9 @@ public final class PersonStatusFragment extends TitleBarFragment<HomeActivity> i
             try {
                 pageNumber = 1;
                 postList = getPostList();
+                if (postList.getRows().size() == 0){
+                    showEmpty();
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

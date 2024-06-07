@@ -187,7 +187,7 @@ public final class LoginActivity extends AppActivity
         }
 
         if (view == mCommitView) {
-            if (mPhoneView.getText().toString().length() != 11) {
+            if (mPhoneView.getText().toString().length() < 1) {
                 mPhoneView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.shake_anim));
                 mCommitView.showError(3000);
                 toast(R.string.common_phone_input_error);

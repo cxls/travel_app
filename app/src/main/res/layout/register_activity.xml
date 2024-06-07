@@ -74,7 +74,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:hint="请输入昵称"
             android:inputType="none"
-            android:maxLength="@integer/sms_code_length"
+            android:maxLength="20"
             android:singleLine="true"
             app:regexType="name" />
 

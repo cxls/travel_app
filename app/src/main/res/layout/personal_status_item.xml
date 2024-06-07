@@ -3,44 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
     <!-- 用户信息部分 -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical"
         android:paddingBottom="10dp">
 
         <ImageView
             android:id="@+id/userAvatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_alignParentStart="true"
             android:contentDescription="头像"
             android:src="@drawable/avatar_placeholder_ic" />
 
-        <TextView
-            android:id="@+id/username"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/userAvatar"
             android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/userAvatar"
-            android:text="用户名"
-            android:textSize="16sp" />
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-        <TextView
-            android:id="@+id/postTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/username"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/userAvatar"
-            android:text="刚刚"
-            android:textSize="12sp" />
+                android:text="用户名"
+                android:textSize="16sp" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/postTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/userAvatar"
+                android:text="刚刚"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <!-- 文本内容 -->
     <TextView
@@ -48,7 +54,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:maxLines="5"
+        android:ellipsize="end"
         android:text="这里是动态内容，可以是文本也可以是图文混排。" />
+    <TextView
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="展开"
+        android:textColor="@android:color/holo_blue_dark"
+        android:paddingTop="8dp"/>
 
     <!-- 图片内容，使用RecyclerView展示多张图片 -->
     <androidx.recyclerview.widget.RecyclerView
@@ -57,6 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
         android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
         tools:listitem="@layout/posts_image_item" />
 
     <!-- 操作按钮部分 -->

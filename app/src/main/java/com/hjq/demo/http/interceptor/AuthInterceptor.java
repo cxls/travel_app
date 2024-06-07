@@ -5,13 +5,19 @@ import static com.umeng.socialize.utils.ContextUtil.getContext;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.hjq.demo.http.model.HttpData;
 import com.hjq.demo.ui.activity.LoginActivity;
+import com.hjq.gson.factory.GsonFactory;
 
 import java.io.IOException;
 
+import cn.hutool.core.lang.TypeReference;
+import cn.hutool.json.JSONUtil;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
@@ -21,11 +27,12 @@ import okhttp3.Response;
  */
 public class AuthInterceptor implements Interceptor {
 
+    private static final String TAG = "AuthInterceptor";
+
     @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
-
         // 检查响应码是否为401
         if (response.code() == 401) {
             // 这里处理跳转到登录界面的逻辑

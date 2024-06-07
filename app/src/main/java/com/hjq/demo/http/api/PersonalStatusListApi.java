@@ -54,6 +54,8 @@ public final class PersonalStatusListApi implements IRequestApi {
         /** 动态的创建时间 */
         private String createdAt;
 
+        private String createBy;
+
         public Long getId() {
             return id;
         }
@@ -100,6 +102,14 @@ public final class PersonalStatusListApi implements IRequestApi {
 
         public void setCreatedAt(String createdAt) {
             this.createdAt = createdAt;
+        }
+
+        public String getCreateBy() {
+            return createBy;
+        }
+
+        public void setCreateBy(String createBy) {
+            this.createBy = createBy;
         }
     }
 }

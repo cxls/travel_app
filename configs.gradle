@@ -48,7 +48,7 @@ ext {
             if (serverType == SERVER_TYPE_PREVIEW) {
                 HOST_URL = "http://124.222.6.215:8080/"
             } else {
-                HOST_URL = "http://192.168.10.110:8080/"
+                HOST_URL = "http://192.168.0.239:8080/"
             }
             break
         case SERVER_TYPE_PRODUCT:
